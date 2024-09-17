@@ -96,16 +96,15 @@ export class URLBuilder {
     const { success: baseUrlSuccess, data: baseUrlData } =
       baseUrlSchema.safeParse(baseUrl);
     const { success: pathSuccess, data: pathData } = pathSchema.safeParse(path);
-    console.log('baseUrl :>> ', baseUrl);
 
     if (!baseUrlSuccess) {
-      throw new Error('Invalid baseUrl');
+      this.handleError('Invalid baseUrl');
     }
     if (!pathSuccess) {
-      throw new Error('Invalid path');
+      this.handleError('Invalid path');
     }
     if (!(queryBuilder instanceof QueryBuilder)) {
-      throw new Error('Invalid queryBuilder');
+      this.handleError('Invalid queryBuilder');
     }
     this.#baseUrl = baseUrlData;
     this.#path = pathData;
@@ -190,7 +189,7 @@ export class URLBuilder {
   replacePathParams(params: Record<string, string>): URLBuilder {
     this.#path = this.#path.replace(/:(\w+)/g, (_, p1) => {
       if (params[p1] === undefined) {
-        throw new Error(`Missing value for path parameter: ${p1}`);
+        this.handleError(`Missing value for path parameter: ${p1}`);
       }
       return params[p1];
     });
@@ -217,5 +216,10 @@ export class URLBuilder {
     url.pathname = this.#path;
     url.search = this.#queryBuilder.build();
     return url.toString();
+  }
+
+  private handleError(msg: string): never {
+    console.error(msg);
+    throw new Error(msg);
   }
 }

@@ -60,7 +60,9 @@ export class QueryBuilder {
     const { success: querySuccess, data: queryData } =
       querySchema.safeParse(query);
     if (!querySuccess) {
-      throw new Error('Invalid query parameters');
+      const message = 'Invalid query parameters';
+      console.error(message);
+      throw new Error(message);
     }
     this.#query = queryData;
   }

@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "hono": "^4.5.5",
+    "oid4vc-prex": "file:../oid4vc-prex",
     "ua-parser-js": "^0.7.39",
     "uuid": "^10.0.0",
     "zod": "^3.23.8"

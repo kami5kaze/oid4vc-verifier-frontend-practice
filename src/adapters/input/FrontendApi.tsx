@@ -13,6 +13,8 @@ import { URLBuilder } from '../../utils/URLBuilder';
 import { ErrorPage } from './views/error';
 import { QueryBuilder } from '../../utils/QueryBuilder';
 import { GetWalletResponseRequest } from '../../domain/GetWalletResponseRequest';
+import { presentationDefinition } from '../../data/mDL';
+import { v4 as uuidv4 } from 'uuid';
 
 export class FrontendApi {
   #home: string;
@@ -48,7 +50,15 @@ export class FrontendApi {
         const { portsIn } = getDI(c);
         const initTransaction = portsIn.initTransaction;
         const { sessionId, response } = await initTransaction(
-          new InitTransactionRequest()
+          InitTransactionRequest.fromJSON({
+            type: 'vp_token',
+            presentation_definition: presentationDefinition,
+            nonce: uuidv4(),
+            wallet_response_redirect_uri_template: new URLBuilder({
+              baseUrl: c.env.API_BASE_URL,
+              path: `${c.env.WALLET_RESPONSE_PATH}?response_code={RESPONSE_CODE}`,
+            }).build(),
+          })
         );
         setCookie(c, 'sessionId', sessionId, {
           path: '/',
@@ -92,11 +102,10 @@ export class FrontendApi {
           });
         }
         const response = await getWalletResponse(
-          new GetWalletResponseRequest('same_device', responseCode),
+          new GetWalletResponseRequest(responseCode),
           presentationId
         );
-        console.log('response :>> ', response);
-        return c.render(<Result />);
+        return c.render(<Result response={response} />);
       } catch (error) {
         return this.handleError(c, (error as Error).message);
       }
