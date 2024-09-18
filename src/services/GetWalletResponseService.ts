@@ -16,7 +16,6 @@ export const createGetWalletResponseServiceInvoker = (
     request: GetWalletResponseRequest,
     presentationId: string
   ): Promise<GetWalletResponseResponse> => {
-    console.log('presentationId :>> ', presentationId);
     const url = new URLBuilder({
       baseUrl,
       path: apiPath,
@@ -26,7 +25,7 @@ export const createGetWalletResponseServiceInvoker = (
     })
       .replacePathParams({ presentationId: presentationId })
       .build();
-    console.log('url :>> ', url);
+
     const response = await Fetcher.get(url, GetWalletResponseResponseSchema);
 
     return GetWalletResponseResponse.fromJSON(response);

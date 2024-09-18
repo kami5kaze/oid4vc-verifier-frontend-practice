@@ -52,12 +52,17 @@ export class FrontendApi {
         const { sessionId, response } = await initTransaction(
           InitTransactionRequest.fromJSON({
             type: 'vp_token',
-            presentation_definition: presentationDefinition,
+            presentation_definition: presentationDefinition(uuidv4()),
             nonce: uuidv4(),
-            wallet_response_redirect_uri_template: new URLBuilder({
-              baseUrl: c.env.API_BASE_URL,
-              path: `${c.env.WALLET_RESPONSE_PATH}?response_code={RESPONSE_CODE}`,
-            }).build(),
+            wallet_response_redirect_uri_template:
+              'http://localhost:8787/result?response_code={RESPONSE_CODE}',
+            // new URLBuilder({
+            //   baseUrl: 'http://localhost:8787',
+            //   path: '/result',
+            //   queryBuilder: new QueryBuilder({
+            //     response_code: '{RESPONSE_CODE}',
+            //   }),
+            // }).build(),
           })
         );
         setCookie(c, 'sessionId', sessionId, {
@@ -105,7 +110,7 @@ export class FrontendApi {
           new GetWalletResponseRequest(responseCode),
           presentationId
         );
-        return c.render(<Result response={response} />);
+        return c.render(<Result response={response} homePath={this.#home} />);
       } catch (error) {
         return this.handleError(c, (error as Error).message);
       }

@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export const presentationDefinition = {
-  id: uuidv4(),
+export const presentationDefinition = (id: string) => ({
+  id: id,
   input_descriptors: [
     {
       id: 'org.iso.18013.5.1.mDL',
@@ -134,4 +134,4 @@ export const presentationDefinition = {
       },
     },
   ],
-};
+});
