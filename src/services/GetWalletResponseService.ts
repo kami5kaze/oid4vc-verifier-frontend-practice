@@ -29,7 +29,7 @@ export const createGetWalletResponseServiceInvoker = (
       baseUrl,
       path: apiPath,
       queryBuilder: new QueryBuilder({
-        responseCode,
+        response_code: responseCode,
       }),
     })
       .replacePathParams({ presentationId: presentationId! })
