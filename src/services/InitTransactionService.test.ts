@@ -1,8 +1,8 @@
-import { InitTransactionRequest } from '../domain/InitTransactionRequest';
-import { createInitTransactionServiceInvoker } from './InitTransactionService';
-import { describe, it, expect } from 'vitest';
-import { createStorePresentationIdInvoker } from '../adapters/out/session/PresentationIdInMemory';
+import { describe, expect, it } from 'vitest';
+import { createStorePresentationIdInvoker } from '../adapters/out/session';
 import { presentationDefinition } from '../data/mDL';
+import { InitTransactionRequest } from '../ports/input';
+import { createInitTransactionServiceInvoker } from './InitTransactionService';
 
 const apiBaseUrl = 'https://dev.verifier-backend.eudiw.dev';
 const apiPath = '/ui/presentations';

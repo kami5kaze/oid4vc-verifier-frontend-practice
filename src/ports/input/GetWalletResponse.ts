@@ -1,9 +1,12 @@
-import { GetWalletResponseRequest } from "../../domain/GetWalletResponseRequest";
-import { GetWalletResponseResponse } from "../../domain/GetWalletResponseResponse";
+import { GetWalletResponseResult } from './GetWalletResponse.types';
 
+/**
+ * Represents a function to get a wallet response from backend
+ *
+ * @param {string} sessionId - The session id
+ * @param {string} responseCode - The response code
+ * @returns {Promise<GetWalletResponseResult>} The wallet response
+ */
 export interface GetWalletResponse {
-  (
-    request: GetWalletResponseRequest,
-    presentationId: string
-  ): Promise<GetWalletResponseResponse>;
+  (sessionId: string, responseCode?: string): Promise<GetWalletResponseResult>;
 }

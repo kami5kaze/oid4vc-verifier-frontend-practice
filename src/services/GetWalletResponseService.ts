@@ -1,33 +1,42 @@
-import { GetWalletResponseRequest } from '../domain/GetWalletResponseRequest';
 import {
-  GetWalletResponseResponse,
-  GetWalletResponseResponseSchema,
-} from '../domain/GetWalletResponseResponse';
-import { GetWalletResponse } from '../ports/input/GetWalletResponse';
+  GetWalletResponse,
+  GetWalletResponseResult,
+  GetWalletResponseResultSchema,
+} from '../ports/input';
+import { LoadPresentationId } from '../ports/out/session';
 import { Fetcher } from '../utils/Fetcher';
 import { QueryBuilder } from '../utils/QueryBuilder';
 import { URLBuilder } from '../utils/URLBuilder';
 
+/**
+ * Creates an invoker for the GetWalletResponse service
+ * @param {string} baseUrl - The base URL
+ * @param {string} apiPath - The API path
+ * @param {LoadPresentationId} loadPresentationId - The load presentation id
+ * @returns {GetWalletResponse} The GetWalletResponse service invoker
+ */
 export const createGetWalletResponseServiceInvoker = (
   baseUrl: string,
-  apiPath: string
+  apiPath: string,
+  loadPresentationId: LoadPresentationId
 ): GetWalletResponse => {
   return async (
-    request: GetWalletResponseRequest,
-    presentationId: string
-  ): Promise<GetWalletResponseResponse> => {
+    sessionId: string,
+    responseCode?: string
+  ): Promise<GetWalletResponseResult> => {
+    const presentationId = await loadPresentationId(sessionId);
     const url = new URLBuilder({
       baseUrl,
       path: apiPath,
       queryBuilder: new QueryBuilder({
-        ...request.toJSON(),
+        responseCode,
       }),
     })
-      .replacePathParams({ presentationId: presentationId })
+      .replacePathParams({ presentationId: presentationId! })
       .build();
 
-    const response = await Fetcher.get(url, GetWalletResponseResponseSchema);
+    const response = await Fetcher.get(url, GetWalletResponseResultSchema);
 
-    return GetWalletResponseResponse.fromJSON(response);
+    return GetWalletResponseResult.fromJSON(response);
   };
 };

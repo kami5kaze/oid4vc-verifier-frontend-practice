@@ -4,5 +4,6 @@ export interface Env {
     INIT_TRANSACTION_PATH: string;
     WALLET_RESPONSE_PATH: string;
     WALLET_URL: string;
+    PUBLCI_URL: string;
   };
 }

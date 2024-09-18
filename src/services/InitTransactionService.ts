@@ -1,17 +1,22 @@
-import { InitTransactionRequest } from '../domain/InitTransactionRequest';
-import {
-  InitTransactionResponse,
-  InitTransactionResponseSchema,
-} from '../domain/InitTransactionResponse';
+import { v4 as uuidv4 } from 'uuid';
 import {
   InitTransaction,
+  InitTransactionRequest,
+  InitTransactionResponse,
+  InitTransactionResponseSchema,
   InitTransactionResult,
-} from '../ports/input/InitTransaction';
-import { StorePresentationId } from '../ports/out/session/StorePresentationId';
+} from '../ports/input';
+import { StorePresentationId } from '../ports/out/session';
 import { Fetcher } from '../utils/Fetcher';
 import { URLBuilder } from '../utils/URLBuilder';
-import { v4 as uuidv4 } from 'uuid';
 
+/**
+ * Creates an invoker for the InitTransaction service
+ * @param {string} baseUrl - The base url
+ * @param {string} apiPath - The api path
+ * @param {StorePresentationId} storePresentationId - The store presentation id function
+ * @returns {InitTransaction} The InitTransaction service invoker
+ */
 export const createInitTransactionServiceInvoker = (
   baseUrl: string,
   apiPath: string,

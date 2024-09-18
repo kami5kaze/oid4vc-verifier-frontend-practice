@@ -1,8 +1,6 @@
 import { Context } from 'hono';
-import { Env } from '../../di/env';
-import { HonoConfiguration } from '../../di/HonoConfiguration';
-import { PortsOutImpl } from '../../di/PortsOutImpl';
-import { PortsInImpl } from '../../di/PortsInImpl';
+import { HonoConfiguration, PortsInImpl, PortsOutImpl } from '../../di';
+import { Env } from '../../env';
 
 export const getDI = (c: Context<Env>) => {
   const config = new HonoConfiguration(c);

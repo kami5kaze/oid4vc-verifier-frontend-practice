@@ -1,5 +1,4 @@
-import { LoadPresentationId } from "../ports/out/session/LoadPresentationId";
-import { StorePresentationId } from "../ports/out/session/StorePresentationId";
+import { LoadPresentationId, StorePresentationId } from '../ports/out/session';
 
 export interface PortsOut {
   get storePresentationId(): StorePresentationId;

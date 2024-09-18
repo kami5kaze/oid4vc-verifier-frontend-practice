@@ -1,10 +1,11 @@
-import { GetWalletResponse } from "../ports/input/GetWalletResponse";
-import { InitTransaction } from "../ports/input/InitTransaction";
-import { createGetWalletResponseServiceInvoker } from "../services/GetWalletResponseService";
-import { createInitTransactionServiceInvoker } from "../services/InitTransactionService";
-import { Configuration } from "./Configuration";
-import { PortsIn } from "./PortsIn";
-import { PortsOut } from "./PortsOut";
+import { GetWalletResponse, InitTransaction } from '../ports/input';
+import {
+  createGetWalletResponseServiceInvoker,
+  createInitTransactionServiceInvoker,
+} from '../services';
+import { Configuration } from './Configuration';
+import { PortsIn } from './PortsInput';
+import { PortsOut } from './PortsOut';
 
 export class PortsInImpl implements PortsIn {
   #initTransaction: InitTransaction;
@@ -12,13 +13,14 @@ export class PortsInImpl implements PortsIn {
 
   constructor(config: Configuration, portsOut: PortsOut) {
     this.#initTransaction = createInitTransactionServiceInvoker(
-      config.baseUrl,
+      config.apiBaseUrl,
       config.initTransactionPath,
       portsOut.storePresentationId
     );
     this.#getWalletResponse = createGetWalletResponseServiceInvoker(
-      config.baseUrl,
-      config.getWalletResponsePath
+      config.apiBaseUrl,
+      config.getWalletResponsePath,
+      portsOut.loadPresentationId
     );
   }
 

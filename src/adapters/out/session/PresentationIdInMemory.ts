@@ -1,6 +1,11 @@
-import { LoadPresentationId } from "../../../ports/out/session/LoadPresentationId";
-import { StorePresentationId } from "../../../ports/out/session/StorePresentationId";
+import {
+  LoadPresentationId,
+  StorePresentationId,
+} from '../../../ports/out/session';
 
+/**
+ * In memory implementation of the session store
+ */
 export class SessionInMemory {
   private sessions: Map<string, string> = new Map();
 

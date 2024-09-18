@@ -1,10 +1,9 @@
 import {
   createLoadPresentationIdInvoker,
   createStorePresentationIdInvoker,
-} from "../adapters/out/session/PresentationIdInMemory";
-import { LoadPresentationId } from "../ports/out/session/LoadPresentationId";
-import { StorePresentationId } from "../ports/out/session/StorePresentationId";
-import { PortsOut } from "./PortsOut";
+} from '../adapters/out/session';
+import { LoadPresentationId, StorePresentationId } from '../ports/out/session';
+import { PortsOut } from './PortsOut';
 
 export class PortsOutImpl implements PortsOut {
   #storePresentationId: StorePresentationId =
