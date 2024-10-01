@@ -1,3 +1,22 @@
-# 開発者向けのリンク集
+# How to build
 
-[Gitの利用方法とCIのセットアップガイド](https://esq365.sharepoint.com/sites/isid-scm/SitePages/%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E3%82%92%E5%88%9D%E3%82%81%E3%82%8B%E5%89%8D%E3%81%AB.aspx)
+## Create .dev.vars
+
+API_BASE_URL = "YOUR OWN ENDPOINT"
+INIT_TRANSACTION_PATH = "/ui/presentations"
+GET_WALLET_RESPONSE_PATH = "/ui/wallet/response"
+WALLET_URL = "eudi-openid4vp://YOUR OWN ENDPOINT"
+WALLET_RESPONSE_PATH = "/ui/presentations/:presentationId"
+PUBLCI_URL = "http://localhost:8787"
+
+## Install dependencies
+
+npm install
+
+## Run locally
+
+npm run dev
+
+## Deploy
+
+npm run deploy
