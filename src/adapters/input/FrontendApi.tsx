@@ -1,7 +1,9 @@
+import { decode } from 'cbor-x';
 import { Context, Handler, Hono } from 'hono';
 import { getCookie, setCookie } from 'hono/cookie';
 import { HTTPException } from 'hono/http-exception';
 import { jsxRenderer } from 'hono/jsx-renderer';
+import { MdocCbor } from 'mdoc-cbor-ts';
 import { v4 as uuidv4 } from 'uuid';
 import { presentationDefinition } from '../../data/mDL';
 import { Env } from '../../env';
@@ -111,7 +113,7 @@ export class FrontendApi {
   resultHandler(): Handler<Env> {
     return async (c) => {
       try {
-        const { portsIn, portsOut } = getDI(c);
+        const { portsIn } = getDI(c);
         const getWalletResponse = portsIn.getWalletResponse;
         const responseCode = c.req.query('response_code');
         const sessionId = getCookie(c, 'sessionId');
@@ -121,7 +123,43 @@ export class FrontendApi {
           });
         }
         const response = await getWalletResponse(sessionId, responseCode);
-        return c.render(<Result response={response} homePath={this.#home} />);
+        const verifier = new MdocCbor();
+        if (!response.vpToken) {
+          // TODO - Error messege
+          throw new Error('VP token not presented');
+        }
+        verifier.loadBase64Url(response.vpToken);
+        if (!(await verifier.verify())) {
+          // TODO - Error messege
+          throw new Error('Invalid VP token');
+        }
+        const data: Record<string, unknown>[] | undefined =
+          response.presentationSubmission?.descriptorMaps.flatMap(
+            (descriptorMap) => {
+              return verifier.documents
+                .filter((v) => v.docType === descriptorMap.id.value)
+                .flatMap((v) => {
+                  return Object.values(v.issuerSigned.nameSpaces).flatMap(
+                    (tags) => {
+                      return tags.flatMap(({ value }) => {
+                        const { elementValue, elementIdentifier } =
+                          decode(value);
+                        return {
+                          [elementIdentifier as string]: elementValue,
+                        };
+                      });
+                    }
+                  );
+                });
+            }
+          );
+        return c.render(
+          <Result
+            data={data}
+            vpToken={response.vpToken}
+            homePath={this.#home}
+          />
+        );
       } catch (error) {
         return this.handleError(c, (error as Error).message);
       }

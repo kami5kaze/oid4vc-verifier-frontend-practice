@@ -1,5 +1,5 @@
-import { FC, useEffect } from "hono/jsx";
-import { html } from "hono/html";
+import { html } from 'hono/html';
+import { FC } from 'hono/jsx';
 
 const tailwindConfig = html`
   <script>
@@ -7,7 +7,7 @@ const tailwindConfig = html`
       theme: {
         extend: {
           fontFamily: {
-            roboto: ["Roboto", "sans-serif"],
+            roboto: ['Roboto', 'sans-serif'],
           },
         },
       },
@@ -16,22 +16,6 @@ const tailwindConfig = html`
 `;
 
 export const Template: FC = ({ children }) => {
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.innerHTML = `
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              roboto: ['Roboto', 'sans-serif'],
-            },
-          },
-        },
-      };
-    `;
-    document.head.appendChild(script);
-  }, []);
-
   return (
     <html>
       <head>

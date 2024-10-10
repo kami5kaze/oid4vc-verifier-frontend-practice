@@ -6,7 +6,9 @@
     "test": "vitest"
   },
   "dependencies": {
+    "cbor-x": "^1.6.0",
     "hono": "^4.5.5",
+    "mdoc-cbor-ts": "file:../mdoc-cbor-ts",
     "oid4vc-prex": "file:../oid4vc-prex",
     "ua-parser-js": "^0.7.39",
     "uuid": "^10.0.0",
