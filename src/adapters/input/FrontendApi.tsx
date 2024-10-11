@@ -1,4 +1,4 @@
-import { decode } from 'cbor-x';
+import { decode, Tag } from 'cbor-x';
 import { Context, Handler, Hono } from 'hono';
 import { getCookie, setCookie } from 'hono/cookie';
 import { HTTPException } from 'hono/http-exception';
@@ -133,26 +133,31 @@ export class FrontendApi {
           // TODO - Error messege
           throw new Error('Invalid VP token');
         }
-        const data: Record<string, unknown>[] | undefined =
+        const data: Record<string, Record<string, unknown>>[] | undefined =
           response.presentationSubmission?.descriptorMaps.flatMap(
             (descriptorMap) => {
               return verifier.documents
                 .filter((v) => v.docType === descriptorMap.id.value)
-                .flatMap((v) => {
-                  return Object.values(v.issuerSigned.nameSpaces).flatMap(
-                    (tags) => {
-                      return tags.flatMap(({ value }) => {
+                .map((v) => {
+                  return {
+                    [descriptorMap.id.value]: Object.values(
+                      v.issuerSigned.nameSpaces
+                    ).reduce<Record<string, unknown>>((acc, tags) => {
+                      tags.forEach(({ value }) => {
                         const { elementValue, elementIdentifier } =
                           decode(value);
-                        return {
-                          [elementIdentifier as string]: elementValue,
-                        };
+                        acc[elementIdentifier as string] =
+                          elementValue instanceof Tag
+                            ? elementValue.value
+                            : elementValue;
                       });
-                    }
-                  );
+                      return acc;
+                    }, {}),
+                  };
                 });
             }
           );
+
         return c.render(
           <Result
             data={data}

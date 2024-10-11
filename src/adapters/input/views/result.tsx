@@ -1,8 +1,9 @@
 import { FC } from 'hono/jsx';
 import { Card } from './components/card';
+import { PresentationDetail } from './components/presntationDetail';
 
 export type ResultProps = {
-  data: Record<string, unknown>[] | undefined;
+  data: Record<string, Record<string, unknown>>[] | undefined;
   vpToken: string;
   homePath: string;
 };
@@ -13,11 +14,8 @@ export const Result: FC<ResultProps> = ({ data, vpToken, homePath }) => {
       <>
         <div>
           {data?.map((v) =>
-            Object.entries(v).map(([key, value]) => (
-              <div>
-                <p className="text-sm text-gray-500">{key}</p>
-                <p className="">{value}</p>
-              </div>
+            Object.entries(v).map(([id, data]) => (
+              <PresentationDetail title={id} data={data} />
             ))
           )}
         </div>
