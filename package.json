@@ -10,12 +10,14 @@
     "hono": "^4.5.5",
     "mdoc-cbor-ts": "file:../mdoc-cbor-ts",
     "oid4vc-prex": "file:../oid4vc-prex",
+    "qrcode": "^1.5.4",
     "ua-parser-js": "^0.7.39",
     "uuid": "^10.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240529.0",
+    "@types/qrcode": "^1.5.5",
     "@types/ua-parser-js": "^0.7.39",
     "@types/uuid": "^10.0.0",
     "vitest": "^2.0.5",

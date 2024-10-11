@@ -3,7 +3,10 @@ import { Context, Handler, Hono } from 'hono';
 import { getCookie, setCookie } from 'hono/cookie';
 import { HTTPException } from 'hono/http-exception';
 import { jsxRenderer } from 'hono/jsx-renderer';
+import { StatusCode } from 'hono/utils/http-status';
 import { MdocCbor } from 'mdoc-cbor-ts';
+import { toString } from 'qrcode';
+import { UAParser } from 'ua-parser-js';
 import { v4 as uuidv4 } from 'uuid';
 import { presentationDefinition } from '../../data/mDL';
 import { Env } from '../../env';
@@ -66,6 +69,9 @@ export class FrontendApi {
       try {
         const { portsIn, config } = getDI(c);
         const initTransaction = portsIn.initTransaction;
+
+        const ua = new UAParser(c.req.raw.headers.get('user-agent') || '');
+        const device = ua.getDevice().type;
         const { sessionId, response } = await initTransaction(
           // TODO - Implement function to generate InitTransaction Request parameters
           InitTransactionRequest.fromJSON({
@@ -96,9 +102,19 @@ export class FrontendApi {
             ...response.toWalletRedirectParams(),
           }),
         }).build();
-
+        const qr = await toString(redirectUrl);
+        if (device === 'mobile') {
+          return c.render(
+            <Init redirectUrl={redirectUrl} homePath={this.#home} />
+          );
+        }
         return c.render(
-          <Init redirectUrl={redirectUrl} homePath={this.#home} />
+          <Init
+            redirectUrl={redirectUrl}
+            homePath={this.#home}
+            qr={qr}
+            resultPath={this.#result}
+          />
         );
       } catch (error) {
         return this.handleError(c, (error as Error).message);
@@ -190,7 +206,12 @@ export class FrontendApi {
    * @param {string} error - The error message
    * @returns {Response | Promise<Response>} The response
    */
-  handleError(c: Context<Env>, error: string): Response | Promise<Response> {
+  handleError(
+    c: Context<Env>,
+    error: string,
+    status?: StatusCode
+  ): Response | Promise<Response> {
+    c.status(status || 500);
     return c.render(<ErrorPage error={error} homePath={this.#home} />);
   }
 }
