@@ -78,15 +78,18 @@ export class FrontendApi {
             type: 'vp_token',
             presentation_definition: presentationDefinition(uuidv4()),
             nonce: uuidv4(),
-            wallet_response_redirect_uri_template: decodeURIComponent(
-              new URLBuilder({
-                baseUrl: config.publicUrl,
-                path: config.resultPath,
-                queryBuilder: new QueryBuilder({
-                  response_code: '{RESPONSE_CODE}',
-                }),
-              }).build()
-            ),
+            wallet_response_redirect_uri_template:
+              device === 'mobile'
+                ? decodeURIComponent(
+                    new URLBuilder({
+                      baseUrl: config.publicUrl,
+                      path: config.resultPath,
+                      queryBuilder: new QueryBuilder({
+                        response_code: '{RESPONSE_CODE}',
+                      }),
+                    }).build()
+                  )
+                : undefined,
           })
         );
         setCookie(c, 'sessionId', sessionId, {
