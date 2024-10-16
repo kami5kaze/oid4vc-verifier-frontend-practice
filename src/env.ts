@@ -5,5 +5,6 @@ export interface Env {
     WALLET_RESPONSE_PATH: string;
     WALLET_URL: string;
     PUBLCI_URL: string;
+    PRESENTATION_ID_KV: KVNamespace;
   };
 }

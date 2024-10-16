@@ -4,7 +4,7 @@ import { Env } from '../../env';
 
 export const getDI = (c: Context<Env>) => {
   const config = new HonoConfiguration(c);
-  const portsOut = new PortsOutImpl();
+  const portsOut = new PortsOutImpl(c);
   const portsIn = new PortsInImpl(config, portsOut);
   return { config, portsOut, portsIn };
 };
