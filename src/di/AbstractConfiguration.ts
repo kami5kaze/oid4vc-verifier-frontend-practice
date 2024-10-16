@@ -8,6 +8,9 @@ export abstract class AbstractConfiguration implements Configuration {
   abstract get apiBaseUrl(): string;
   abstract get initTransactionPath(): string;
   abstract get getWalletResponsePath(): string;
+  abstract get publicUrl(): string;
+  abstract get walletUrl(): string;
+
   get homePath(): string {
     return '/home';
   }

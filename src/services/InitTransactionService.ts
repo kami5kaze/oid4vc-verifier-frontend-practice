@@ -20,7 +20,8 @@ import { URLBuilder } from '../utils/URLBuilder';
 export const createInitTransactionServiceInvoker = (
   baseUrl: string,
   apiPath: string,
-  storePresentationId: StorePresentationId
+  storePresentationId: StorePresentationId,
+  endpoint: Service
 ): InitTransaction => {
   return async (
     request: InitTransactionRequest
@@ -29,6 +30,7 @@ export const createInitTransactionServiceInvoker = (
     const sessionId = uuidv4();
     const response = InitTransactionResponse.fromJSON(
       await Fetcher.post(
+        endpoint,
         url,
         JSON.stringify(request),
         InitTransactionResponseSchema

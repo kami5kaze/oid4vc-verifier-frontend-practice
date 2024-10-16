@@ -6,6 +6,10 @@ describe('Fetcher', () => {
   const mockUrl = 'https://api.example.com/';
   const mockSchema = z.object({ name: z.string() });
   const mockResponse = { name: 'example' };
+  const mockEndpoint: Service = {
+    fetch: fetch,
+    connect: vi.fn(),
+  };
 
   beforeEach(() => {
     // @ts-ignore
@@ -21,7 +25,11 @@ describe('Fetcher', () => {
   describe('get', () => {
     it('should fetch data with GET method', async () => {
       const urlBuilder = new URLBuilder({ baseUrl: mockUrl });
-      const data = await Fetcher.get(urlBuilder.build(), mockSchema);
+      const data = await Fetcher.get(
+        mockEndpoint,
+        urlBuilder.build(),
+        mockSchema
+      );
 
       expect(data).toEqual(mockResponse);
     });
@@ -32,7 +40,12 @@ describe('Fetcher', () => {
       const urlBuilder = new URLBuilder({ baseUrl: mockUrl });
       const body = JSON.stringify({ key: 'value' });
 
-      const data = await Fetcher.post(urlBuilder.build(), body, mockSchema);
+      const data = await Fetcher.post(
+        mockEndpoint,
+        urlBuilder.build(),
+        body,
+        mockSchema
+      );
 
       expect(data).toEqual(mockResponse);
     });

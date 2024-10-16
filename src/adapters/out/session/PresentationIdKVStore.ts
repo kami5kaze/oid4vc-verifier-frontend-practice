@@ -25,7 +25,7 @@ export class PresentationIdKVStore {
     sessionId,
     presentationId
   ) => {
-    this.kv.put(sessionId, presentationId, putOptions);
+    await this.kv.put(sessionId, presentationId, putOptions);
   };
 
   loadPresentationId: LoadPresentationId = async (sessionId) => {
