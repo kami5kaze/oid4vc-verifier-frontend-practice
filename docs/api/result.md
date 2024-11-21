@@ -44,8 +44,8 @@ https://oid4vc-verifier-frontend-hono.g-trustedweb.workers.dev/result
 ## サンプルリクエスト
 
 ```sh
-curl -v  https://oid4vc-verifier-frontend-hono.g-trustedweb.workers.dev/result?response_code={RESPONSE_CODE} \
-     -H "Cookie: {sessionId} \
+curl -v  "https://oid4vc-verifier-frontend-hono.g-trustedweb.workers.dev/result?response_code={RESPONSE_CODE}" \
+-H "Cookie: {sessionId}"
 ```
 
 ## サンプルレスポンス
