@@ -1,40 +1,47 @@
 import { Context } from 'hono';
-import { Env } from '../env';
 import { AbstractConfiguration } from './AbstractConfiguration';
+import { env } from 'hono/adapter';
+import { Bindings, Env } from '../env';
 
 /**
  * Configuration class from Hono that implements the Configuration interface
  * @extends {AbstractConfiguration}
  */
 export class HonoConfiguration extends AbstractConfiguration {
-  #ctx?: Context<Env>;
+  #env?: Bindings;
 
   /**
    * Constructor of the class
    * @param {Context<Env>} ctx - The context
    */
-  constructor(ctx?: Context<Env>) {
+  constructor(ctx?: Context) {
     super();
-    this.#ctx = ctx;
+    this.#env = ctx ? env<Bindings>(ctx) : undefined;
   }
 
   get apiBaseUrl(): string {
-    return this.#ctx?.env.API_BASE_URL ?? '';
+    return this.#env?.API_BASE_URL ?? process.env.API_BASE_URL ?? '';
   }
 
   get initTransactionPath(): string {
-    return this.#ctx?.env.INIT_TRANSACTION_PATH ?? '';
+    return (
+      this.#env?.INIT_TRANSACTION_PATH ??
+      process.env.INIT_TRANSACTION_PATH ??
+      ''
+    );
   }
 
   get getWalletResponsePath(): string {
-    return this.#ctx?.env.WALLET_RESPONSE_PATH ?? '';
+    return (
+      this.#env?.WALLET_RESPONSE_PATH ?? process.env.WALLET_RESPONSE_PATH ?? ''
+    );
   }
 
   get walletUrl(): string {
-    return this.#ctx?.env.WALLET_URL ?? '';
+    return this.#env?.WALLET_URL ?? process.env.WALLET_URL ?? '';
   }
 
   get publicUrl(): string {
-    return this.#ctx?.env.PUBLCI_URL ?? '';
+    return this.#env?.PUBLCI_URL ?? process.env.PUBLCI_URL ?? '';
   }
 }
