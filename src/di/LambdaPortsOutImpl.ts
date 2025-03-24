@@ -24,10 +24,10 @@ export class LambdaPortsOutImpl implements PortsOut {
     const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, TABLE_NAME } =
       env<Bindings>(ctx);
     const client = createDynamoDBClient({
-      credentials: {
-        accessKeyId: AWS_ACCESS_KEY_ID,
-        secretAccessKey: AWS_SECRET_ACCESS_KEY,
-      },
+      // credentials: {
+      //   accessKeyId: AWS_ACCESS_KEY_ID,
+      //   secretAccessKey: AWS_SECRET_ACCESS_KEY,
+      // },
     });
     const dynamo = new DynamoDB(client, TABLE_NAME);
     this.#presentationIdDynamo = new PresentationIdDynamo(dynamo);

@@ -2,8 +2,9 @@
   "name": "oid4vc-verifier-frontend-hono",
   "type": "module",
   "scripts": {
+    "build": "esbuild --bundle --outfile=./dist/index.js --platform=node --target=node20 ./src/lambda.ts",
+    "zip": "zip -j lambda.zip dist/index.js",
     "dev": "wrangler dev src/index.ts",
-    "build": "node esbuild.config.js",
     "deploy": "wrangler deploy --minify src/index.ts",
     "build-container": "sam build --use-container --build-image public.ecr.aws/sam/build-nodejs20.x --debug --skip-pull-image",
     "start-api": "sam local start-api --host 0.0.0.0 --warm-containers EAGER --debug --container-host host.docker.internal --container-host-interface 0.0.0.0 --docker-network hono-lambda-dynamodb_devcontainer_dev-network",
@@ -37,6 +38,7 @@
     "@types/qrcode": "^1.5.5",
     "@types/ua-parser-js": "^0.7.39",
     "@types/uuid": "^10.0.0",
+    "@types/node": "^22.13.10",
     "vitest": "^2.0.5",
     "wrangler": "^3.57.2"
   }

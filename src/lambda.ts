@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { handle } from 'hono/aws-lambda';
 import { FrontendApiLambda } from './adapters/input/FrontendApiLambda';
 import { HonoConfiguration } from './di/HonoConfiguration';
+import { setupLambdaMiddleware } from './middleware/setup';
 
 const configuration = new HonoConfiguration();
 const api = new FrontendApiLambda(
@@ -13,6 +14,8 @@ const api = new FrontendApiLambda(
 const app = new Hono()
   .get('/', (c) => c.redirect(configuration.homePath))
   .route('/', api.route);
+
+app.use(setupLambdaMiddleware);
 
 // export default app;
 export const handler = handle(app);
