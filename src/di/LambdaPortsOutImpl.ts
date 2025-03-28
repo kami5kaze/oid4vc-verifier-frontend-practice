@@ -21,7 +21,7 @@ export class LambdaPortsOutImpl implements PortsOut {
   #presentationIdDynamo: PresentationIdDynamo;
 
   constructor(ctx: Context) {
-    const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, TABLE_NAME } =
+    const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, DYNAMODB_TABLE_VERIFIER_FRONTEND } =
       env<Bindings>(ctx);
     const client = createDynamoDBClient({
       // credentials: {
@@ -29,7 +29,7 @@ export class LambdaPortsOutImpl implements PortsOut {
       //   secretAccessKey: AWS_SECRET_ACCESS_KEY,
       // },
     });
-    const dynamo = new DynamoDB(client, TABLE_NAME);
+    const dynamo = new DynamoDB(client, DYNAMODB_TABLE_VERIFIER_FRONTEND);
     this.#presentationIdDynamo = new PresentationIdDynamo(dynamo);
   }
 

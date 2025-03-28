@@ -35,13 +35,13 @@ export const setupLambdaMiddleware = createMiddleware(async (c, next) => {
 
     c.env = {
         ...c.env,
-        API_BASE_URL: process.env.API_BASE_URL,
+        API_BASE_URL_VERIFIER_FRONTEND: process.env.API_BASE_URL_VERIFIER_FRONTEND,
         INIT_TRANSACTION_PATH: process.env.INIT_TRANSACTION_PATH,
         GET_WALLET_RESPONSE_PATH: process.env.GET_WALLET_RESPONSE_PATH,
         WALLET_URL: process.env.WALLET_URL,
         WALLET_RESPONSE_PATH: process.env.WALLET_RESPONSE_PATH,
-        PUBLCI_URL: process.env.PUBLIC_URL_VERIFIER_FRONTEND || '',
-        DYNAMODB_TABLE: process.env.DYNAMODB_TABLE_VERIFIER_FRONTEND || '',
+        PUBLIC_URL_VERIFIER_FRONTEND: process.env.PUBLIC_URL_VERIFIER_FRONTEND || '',
+        DYNAMODB_TABLE_VERIFIER_FRONTEND: process.env.DYNAMODB_TABLE_VERIFIER_FRONTEND || '',
     };
     return next();
 });

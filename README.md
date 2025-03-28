@@ -4,12 +4,14 @@
 
 ### Create .dev.vars
 
-API_BASE_URL = "YOUR OWN ENDPOINT"
+```bash
+API_BASE_URL_VERIFIER_FRONTEND = http://localhost:4566
 INIT_TRANSACTION_PATH = "/ui/presentations"
 GET_WALLET_RESPONSE_PATH = "/ui/wallet/response"
-WALLET_URL = "eudi-openid4vp://YOUR OWN ENDPOINT"
+WALLET_URL = "eudi-openid4vp:localhost:4566"
 WALLET_RESPONSE_PATH = "/ui/presentations/:presentationId"
-PUBLCI_URL = "http://localhost:8787"
+PUBLIC_URL_VERIFIER_FRONTEND = "http://localhost:8787"
+```
 
 ### Install dependencies
 
@@ -44,12 +46,13 @@ npm run deploy
    ```
 2. Create .env
     ```bash
-   API_BASE_URL=YOUR OWN ENDPOINT
+   API_BASE_URL_VERIFIER_FRONTEND=http://localhost:4566
    INIT_TRANSACTION_PATH=/ui/presentations
    GET_WALLET_RESPONSE_PATH=/ui/wallet/response
-   WALLET_URL=eudi-openid4vp://YOUR OWN ENDPOINT
+   WALLET_URL=eudi-openid4vp://localhost:4566
    WALLET_RESPONSE_PATH=/ui/presentations/:presentationId
-   PUBLCI_URL=http://localhost:8787
+   PUBLIC_URL_VERIFIER_FRONTEND=http://localhost:8787
+   DEPLOY_ENV=local
     ```
 
 3. Rebuilding the Image and Starting the Container:
@@ -88,12 +91,21 @@ npm run deploy
 
 3. Set Environment Variables for SecretsManager:
    ```bash
-   API_BASE_URL=YOUR OWN ENDPOINT
+   API_BASE_URL_VERIFIER_FRONTEND=http://localhost:4566
    INIT_TRANSACTION_PATH=/ui/presentations
    GET_WALLET_RESPONSE_PATH=/ui/wallet/response
-   WALLET_URL=eudi-openid4vp://YOUR OWN ENDPOINT
+   WALLET_URL=eudi-openid4vp://localhost:4566
    WALLET_RESPONSE_PATH=/ui/presentations/:presentationId
-   PUBLCI_URL=http://localhost:8787
+   PUBLIC_URL_VERIFIER_FRONTEND=http://localhost:8787
+   DYNAMODB_TABLE_VERIFIER_FRONTEND=PRESENTATION_ID
+   ```
+4. Create .env
+    ```bash
+   DYNAMODB_TABLE_VERIFIER_FRONTEND=PRESENTATION_ID
+   AWS_DEFAULT_REGION=ap-northeast-1
+   LAMBDA_ROLE_NAME=arn:aws:iam::xxx:role/role-name
+   AWS_ACCESS_KEY_ID=YOUR_AWS_ACCESS_KEY_ID
+   AWS_SECRET_ACCESS_KEY=YOUR_AWS_SECRET_ACCESS_KEY
    ```
 
 4. Build:
