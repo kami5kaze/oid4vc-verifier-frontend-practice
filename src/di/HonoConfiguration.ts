@@ -20,7 +20,11 @@ export class HonoConfiguration extends AbstractConfiguration {
   }
 
   get apiBaseUrl(): string {
-    return this.#env?.API_BASE_URL_VERIFIER_FRONTEND ?? process.env.API_BASE_URL_VERIFIER_FRONTEND ?? '';
+    return (
+      this.#env?.API_BASE_URL_VERIFIER_FRONTEND ??
+      process.env.API_BASE_URL_VERIFIER_FRONTEND ??
+      ''
+    );
   }
 
   get initTransactionPath(): string {
@@ -42,6 +46,14 @@ export class HonoConfiguration extends AbstractConfiguration {
   }
 
   get publicUrl(): string {
-    return this.#env?.PUBLIC_URL_VERIFIER_FRONTEND ?? process.env.PUBLIC_URL_VERIFIER_FRONTEND ?? '';
+    return (
+      this.#env?.PUBLIC_URL_VERIFIER_FRONTEND ??
+      process.env.PUBLIC_URL_VERIFIER_FRONTEND ??
+      ''
+    );
+  }
+
+  get deployEnv(): string {
+    return this.#env?.DEPLOY_ENV ?? process.env.DEPLOY_ENV ?? '';
   }
 }

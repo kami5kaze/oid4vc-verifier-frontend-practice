@@ -9,13 +9,21 @@ import { toString } from 'qrcode';
 import { UAParser } from 'ua-parser-js';
 import { v4 as uuidv4 } from 'uuid';
 import { presentationDefinition } from '../../data/mDL';
-import { Env } from '../../env';
+import { Env, Bindings } from '../../env';
 import { InitTransactionRequest } from '../../ports/input';
 import { QueryBuilder } from '../../utils/QueryBuilder';
 import { URLBuilder } from '../../utils/URLBuilder';
 import { getLambdaDI } from './getLambdaDI';
 import { ErrorPage, Home, Init, Result, Template } from './views';
+import { ApiGatewayRequestContextV2 } from 'hono/aws-lambda';
 
+interface LambdaEnv {
+  Bindings: Bindings & {
+    event: {
+      requestContext: ApiGatewayRequestContextV2;
+    };
+  };
+}
 /**
  * Frontend API class
  */
@@ -39,8 +47,8 @@ export class FrontendApiLambda {
   /**
    * Api Routes
    */
-  get route(): Hono<Env> {
-    const app = new Hono<Env>()
+  get route(): Hono<LambdaEnv> {
+    const app = new Hono<LambdaEnv>()
       .use(
         '*',
         jsxRenderer(({ children }) => <Template>{children}</Template>)
@@ -54,19 +62,20 @@ export class FrontendApiLambda {
 
   /**
    * Handler for home path
-   * @returns {Handler<Env>} The handler
+   * @returns {Handler<LambdaEnv>} The handler
    */
-  homeHandler(): Handler<Env> {
+  homeHandler(): Handler<LambdaEnv> {
     return (c) => c.render(<Home initTransactionPath={this.#init} />);
   }
 
   /**
    * Handler for init path
-   * @returns {Handler<Env>} The handler
+   * @returns {Handler<LambdaEnv>} The handler
    */
-  initHandler(): Handler<Env> {
+  initHandler(): Handler<LambdaEnv> {
     return async (c) => {
       try {
+        const stage = c.env.event.requestContext.stage;
         const { portsIn, config } = getLambdaDI(c);
         const initTransaction = portsIn.initTransaction;
 
@@ -129,9 +138,9 @@ export class FrontendApiLambda {
 
   /**
    * Handler for result path
-   * @returns {Handler<Env>} The handler
+   * @returns {Handler<LambdaEnv>} The handler
    */
-  resultHandler(): Handler<Env> {
+  resultHandler(): Handler<LambdaEnv> {
     return async (c) => {
       try {
         const { portsIn } = getLambdaDI(c);
@@ -194,9 +203,9 @@ export class FrontendApiLambda {
 
   /**
    * Handler for invalid path
-   * @returns {Handler<Env>} The handler
+   * @returns {Handler<LambdaEnv>} The handler
    */
-  notFoundHandler(): Handler<Env> {
+  notFoundHandler(): Handler<LambdaEnv> {
     return (c) => {
       c.status(404);
       return c.render(
@@ -207,12 +216,12 @@ export class FrontendApiLambda {
 
   /**
    * Handle error
-   * @param {Context<Env>} c - The context
+   * @param {Context<LambdaEnv>} c - The context
    * @param {string} error - The error message
    * @returns {Response | Promise<Response>} The response
    */
   handleError(
-    c: Context<Env>,
+    c: Context<LambdaEnv>,
     error: string,
     status?: StatusCode
   ): Response | Promise<Response> {

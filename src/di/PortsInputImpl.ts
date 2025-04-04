@@ -17,12 +17,14 @@ export class PortsInImpl implements PortsIn {
     this.#initTransaction = createInitTransactionServiceInvoker(
       config.apiBaseUrl,
       config.initTransactionPath,
+      config.deployEnv,
       portsOut.storePresentationId,
       ctx.env.BACKEND
     );
     this.#getWalletResponse = createGetWalletResponseServiceInvoker(
       config.apiBaseUrl,
       config.getWalletResponsePath,
+      config.deployEnv,
       portsOut.loadPresentationId,
       ctx.env.BACKEND
     );

@@ -20,6 +20,7 @@ import { URLBuilder } from '../utils/URLBuilder';
 export const createInitTransactionServiceInvoker = (
   baseUrl: string,
   apiPath: string,
+  deployEnv: string,
   storePresentationId: StorePresentationId,
   endpoint: Service
 ): InitTransaction => {
@@ -33,7 +34,8 @@ export const createInitTransactionServiceInvoker = (
         endpoint,
         url,
         JSON.stringify(request),
-        InitTransactionResponseSchema
+        InitTransactionResponseSchema,
+        deployEnv
       )
     );
     await storePresentationId(sessionId, response.presentationId);

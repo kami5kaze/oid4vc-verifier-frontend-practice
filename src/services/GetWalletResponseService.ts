@@ -18,12 +18,13 @@ import { URLBuilder } from '../utils/URLBuilder';
 export const createGetWalletResponseServiceInvoker = (
   baseUrl: string,
   apiPath: string,
+  deployEnv: string,
   loadPresentationId: LoadPresentationId,
   endpoint: Service
 ): GetWalletResponse => {
   return async (
     sessionId: string,
-    responseCode?: string
+    responseCode?: string,
   ): Promise<GetWalletResponseResult> => {
     const presentationId = await loadPresentationId(sessionId);
     const url = new URLBuilder({
@@ -39,7 +40,8 @@ export const createGetWalletResponseServiceInvoker = (
     const response = await Fetcher.get(
       endpoint,
       url,
-      GetWalletResponseResultSchema
+      GetWalletResponseResultSchema,
+      deployEnv
     );
 
     return GetWalletResponseResult.fromJSON(response);

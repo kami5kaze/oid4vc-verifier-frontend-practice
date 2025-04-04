@@ -12,10 +12,9 @@ const api = new FrontendApiLambda(
 );
 
 const app = new Hono()
+  .use(setupLambdaMiddleware)
   .get('/', (c) => c.redirect(configuration.homePath))
   .route('/', api.route);
-
-app.use(setupLambdaMiddleware);
 
 // export default app;
 export const handler = handle(app);

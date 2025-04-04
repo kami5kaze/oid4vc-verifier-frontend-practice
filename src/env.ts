@@ -10,6 +10,7 @@ export interface Bindings {
   PRESENTATION_ID_KV: KVNamespace;
   BACKEND: Service;
   [key: string]: unknown;
+  DEPLOY_ENV: string;
 }
 
 export interface Env {
