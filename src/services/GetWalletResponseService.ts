@@ -24,7 +24,7 @@ export const createGetWalletResponseServiceInvoker = (
 ): GetWalletResponse => {
   return async (
     sessionId: string,
-    responseCode?: string,
+    responseCode?: string
   ): Promise<GetWalletResponseResult> => {
     const presentationId = await loadPresentationId(sessionId);
     const url = new URLBuilder({
@@ -38,6 +38,7 @@ export const createGetWalletResponseServiceInvoker = (
       .build();
 
     const response = await Fetcher.get(
+      apiPath,
       endpoint,
       url,
       GetWalletResponseResultSchema,

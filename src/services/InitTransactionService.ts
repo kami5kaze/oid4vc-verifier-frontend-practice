@@ -31,6 +31,7 @@ export const createInitTransactionServiceInvoker = (
     const sessionId = uuidv4();
     const response = InitTransactionResponse.fromJSON(
       await Fetcher.post(
+        apiPath,
         endpoint,
         url,
         JSON.stringify(request),

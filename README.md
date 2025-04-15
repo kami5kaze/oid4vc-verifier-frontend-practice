@@ -5,12 +5,13 @@
 ### Create .dev.vars
 
 ```bash
-API_BASE_URL_VERIFIER_FRONTEND = http://localhost:4566
+API_BASE_URL_VERIFIER_FRONTEND = "http://localhost:4566"
 INIT_TRANSACTION_PATH = "/ui/presentations"
 GET_WALLET_RESPONSE_PATH = "/ui/wallet/response"
 WALLET_URL = "eudi-openid4vp:localhost:4566"
 WALLET_RESPONSE_PATH = "/ui/presentations/:presentationId"
 PUBLIC_URL_VERIFIER_FRONTEND = "http://localhost:8787"
+DEPLOY_ENV = "local"
 ```
 
 ### Install dependencies

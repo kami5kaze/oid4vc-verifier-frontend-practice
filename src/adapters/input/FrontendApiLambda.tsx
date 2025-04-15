@@ -119,15 +119,18 @@ export class FrontendApiLambda {
         const qr = await toString(redirectUrl);
         if (device === 'mobile') {
           return c.render(
-            <Init redirectUrl={redirectUrl} homePath={this.#home} />
+            <Init
+              redirectUrl={redirectUrl}
+              homePath={'/' + stage + this.#home}
+            />
           );
         }
         return c.render(
           <Init
             redirectUrl={redirectUrl}
-            homePath={this.#home}
+            homePath={'/' + stage + this.#home}
             qr={qr}
-            resultPath={this.#result}
+            resultPath={'/' + stage + this.#result}
           />
         );
       } catch (error) {
