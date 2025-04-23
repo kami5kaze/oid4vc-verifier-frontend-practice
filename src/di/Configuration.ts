@@ -34,4 +34,6 @@ export interface Configuration {
    * The wallet deep link
    */
   get walletUrl(): string;
+
+  get deployEnv(): string;
 }

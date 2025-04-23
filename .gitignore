@@ -32,5 +32,8 @@ lerna-debug.log*
 # misc
 .DS_Store
 
-# deploy
+# AWS Lambda
+.aws-sam/
 build/
+volume/
+# deploy
