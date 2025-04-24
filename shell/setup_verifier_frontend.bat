@@ -1,118 +1,121 @@
 @echo off
 setlocal enabledelayedexpansion
 
-:: ã‚¨ãƒ©ãƒ¼ãƒãƒ³ãƒ‰ãƒªãƒ³ã‚°é–¢æ•°
-:handle_error
-echo ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸ: %~1
-call :cleanup
-exit /b 1
-
-:: ã‚¯ãƒªãƒ¼ãƒ³ã‚¢ãƒƒãƒ—é–¢æ•°
-:cleanup
-echo ã‚¯ãƒªãƒ¼ãƒ³ã‚¢ãƒƒãƒ—ã‚’å®Ÿè¡Œã—ã¾ã™...
-if exist "%BUILD_DIR%" (
-    rmdir /s /q "%BUILD_DIR%" || echo è­¦å‘Š: buildãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å‰Šé™¤ã«å¤±æ•—ã—ã¾ã—ãŸ
-)
-exit /b 0
-
-echo Verifier Frontendã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã‚’é–‹å§‹ã—ã¾ã™ã€‚
-echo ç¶šè¡Œã™ã‚‹ã«ã¯Enterã‚­ãƒ¼ã‚’æŠ¼ã—ã¦ãã ã•ã„ã€‚
+echo Verifier Frontend‚ÌƒZƒbƒgƒAƒbƒv‚ğŠJn‚µ‚Ü‚·B
+echo ‘±s‚·‚é‚É‚ÍEnterƒL[‚ğ‰Ÿ‚µ‚Ä‚­‚¾‚³‚¢B
 pause > nul
 
-:: å„ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¨­å®š
+:: Šeƒ‚ƒWƒ…[ƒ‹‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğİ’è
 set "BUILD_DIR=build"
 set "CORE_DIR=%BUILD_DIR%\oid4vc-core"
 set "PREX_DIR=%BUILD_DIR%\oid4vc-prex"
 set "CBOR_DIR=%BUILD_DIR%\mdoc-cbor-ts"
 
-:: build ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å­˜åœ¨ç¢ºèªã¨ä½œæˆ
+:: ƒGƒ‰[ƒnƒ“ƒhƒŠƒ“ƒOŠÖ”
+:handle_error
+if errorlevel 1 (
+    echo ƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½: %~1
+    exit /b 1
+)
+
+:: ƒNƒŠ[ƒ“ƒAƒbƒvŠÖ”
+:cleanup
+echo ƒNƒŠ[ƒ“ƒAƒbƒv‚ğÀs‚µ‚Ü‚·...
+if exist "%BUILD_DIR%" (
+    rmdir /s /q "%BUILD_DIR%" || echo Œx: buildƒfƒBƒŒƒNƒgƒŠ‚Ìíœ‚É¸”s‚µ‚Ü‚µ‚½
+)
+ if errorlevel 1 (
+    exit /b 0
+)
+
+:: build ƒfƒBƒŒƒNƒgƒŠ‚Ì‘¶İŠm”F‚Æì¬
 if not exist "%BUILD_DIR%" (
     mkdir "%BUILD_DIR%" || (
-        call :handle_error "buildãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ä½œæˆã«å¤±æ•—"
+        call :handle_error "buildƒfƒBƒŒƒNƒgƒŠ‚Ìì¬‚É¸”s"
     )
 )
 
-:: ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ã‚¯ãƒ­ãƒ¼ãƒ³
+:: ƒ‚ƒWƒ…[ƒ‹‚ğƒNƒ[ƒ“
 cd "%BUILD_DIR%" || (
-    call :handle_error "buildãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¸ã®ç§»å‹•ã«å¤±æ•—"
+    call :handle_error "buildƒfƒBƒŒƒNƒgƒŠ‚Ö‚ÌˆÚ“®‚É¸”s"
 )
 
-echo oid4vc-coreã‚’ã‚¯ãƒ­ãƒ¼ãƒ³ã—ã¦ã„ã¾ã™...
+echo oid4vc-core‚ğƒNƒ[ƒ“‚µ‚Ä‚¢‚Ü‚·...
 git clone https://github.com/dentsusoken/oid4vc-core || (
-    call :handle_error "oid4vc-coreã®ã‚¯ãƒ­ãƒ¼ãƒ³ã«å¤±æ•—"
+    call :handle_error "oid4vc-core‚ÌƒNƒ[ƒ“‚É¸”s"
 )
 
-echo oid4vc-prexã‚’ã‚¯ãƒ­ãƒ¼ãƒ³ã—ã¦ã„ã¾ã™...
+echo oid4vc-prex‚ğƒNƒ[ƒ“‚µ‚Ä‚¢‚Ü‚·...
 git clone https://github.com/dentsusoken/oid4vc-prex || (
-    call :handle_error "oid4vc-prexã®ã‚¯ãƒ­ãƒ¼ãƒ³ã«å¤±æ•—"
+    call :handle_error "oid4vc-prex‚ÌƒNƒ[ƒ“‚É¸”s"
 )
 
-echo mdoc-cbor-tsã‚’ã‚¯ãƒ­ãƒ¼ãƒ³ã—ã¦ã„ã¾ã™...
+echo mdoc-cbor-ts‚ğƒNƒ[ƒ“‚µ‚Ä‚¢‚Ü‚·...
 git clone https://github.com/dentsusoken/mdoc-cbor-ts || (
-    call :handle_error "mdoc-cbor-tsã®ã‚¯ãƒ­ãƒ¼ãƒ³ã«å¤±æ•—"
+    call :handle_error "mdoc-cbor-ts‚ÌƒNƒ[ƒ“‚É¸”s"
 )
 
-echo oid4vc-coreã‚’ãƒ“ãƒ«ãƒ‰ã—ã¦ã„ã¾ã™...
+echo oid4vc-core‚ğƒrƒ‹ƒh‚µ‚Ä‚¢‚Ü‚·...
 cd "%CORE_DIR%" || (
-    call :handle_error "oid4vc-coreãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¸ã®ç§»å‹•ã«å¤±æ•—"
+    call :handle_error "oid4vc-coreƒfƒBƒŒƒNƒgƒŠ‚Ö‚ÌˆÚ“®‚É¸”s"
 )
 call npm install || (
-    call :handle_error "oid4vc-coreã®npm installã«å¤±æ•—"
+    call :handle_error "oid4vc-core‚Ìnpm install‚É¸”s"
 )
 call npm run build || (
-    call :handle_error "oid4vc-coreã®ãƒ“ãƒ«ãƒ‰ã«å¤±æ•—"
+    call :handle_error "oid4vc-core‚Ìƒrƒ‹ƒh‚É¸”s"
 )
 call npm link || (
-    call :handle_error "oid4vc-coreã®npm linkã«å¤±æ•—"
+    call :handle_error "oid4vc-core‚Ìnpm link‚É¸”s"
 )
 
-echo oid4vc-prexã‚’ãƒ“ãƒ«ãƒ‰ã—ã¦ã„ã¾ã™...
+echo oid4vc-prex‚ğƒrƒ‹ƒh‚µ‚Ä‚¢‚Ü‚·...
 cd "%PREX_DIR%" || (
-    call :handle_error "oid4vc-prexãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¸ã®ç§»å‹•ã«å¤±æ•—"
+    call :handle_error "oid4vc-prexƒfƒBƒŒƒNƒgƒŠ‚Ö‚ÌˆÚ“®‚É¸”s"
 )
 call npm install || (
-    call :handle_error "oid4vc-prexã®npm installã«å¤±æ•—"
+    call :handle_error "oid4vc-prex‚Ìnpm install‚É¸”s"
 )
 call npm link oid4vc-core || (
-    call :handle_error "oid4vc-coreã®ãƒªãƒ³ã‚¯ã«å¤±æ•—"
+    call :handle_error "oid4vc-core‚ÌƒŠƒ“ƒN‚É¸”s"
 )
 call npm run build || (
-    call :handle_error "oid4vc-prexã®ãƒ“ãƒ«ãƒ‰ã«å¤±æ•—"
+    call :handle_error "oid4vc-prex‚Ìƒrƒ‹ƒh‚É¸”s"
 )
 call npm link || (
-    call :handle_error "oid4vc-prexã®npm linkã«å¤±æ•—"
+    call :handle_error "oid4vc-prex‚Ìnpm link‚É¸”s"
 )
 
-echo mdoc-cbor-tsã‚’ãƒ“ãƒ«ãƒ‰ã—ã¦ã„ã¾ã™...
+echo mdoc-cbor-ts‚ğƒrƒ‹ƒh‚µ‚Ä‚¢‚Ü‚·...
 cd "%CBOR_DIR%" || (
-    call :handle_error "mdoc-cbor-tsãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¸ã®ç§»å‹•ã«å¤±æ•—"
+    call :handle_error "mdoc-cbor-tsƒfƒBƒŒƒNƒgƒŠ‚Ö‚ÌˆÚ“®‚É¸”s"
 )
 call npm install || (
-    call :handle_error "mdoc-cbor-tsã®npm installã«å¤±æ•—"
+    call :handle_error "mdoc-cbor-ts‚Ìnpm install‚É¸”s"
 )
 call npm link oid4vc-core oid4vc-prex || (
-    call :handle_error "ä¾å­˜ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒªãƒ³ã‚¯ã«å¤±æ•—"
+    call :handle_error "ˆË‘¶ƒ‚ƒWƒ…[ƒ‹‚ÌƒŠƒ“ƒN‚É¸”s"
 )
 call npm run build || (
-    call :handle_error "mdoc-cbor-tsã®ãƒ“ãƒ«ãƒ‰ã«å¤±æ•—"
+    call :handle_error "mdoc-cbor-ts‚Ìƒrƒ‹ƒh‚É¸”s"
 )
 call npm link || (
-    call :handle_error "mdoc-cbor-tsã®npm linkã«å¤±æ•—"
+    call :handle_error "mdoc-cbor-ts‚Ìnpm link‚É¸”s"
 )
 
-echo oid4vc-verifier-frontend-honoã‚’ãƒ“ãƒ«ãƒ‰ã—ã¦ã„ã¾ã™...
+echo oid4vc-verifier-frontend-hono‚ğƒrƒ‹ƒh‚µ‚Ä‚¢‚Ü‚·...
 cd .. || (
-    call :handle_error "oid4vc-verifier-frontend-honoãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¸ã®ç§»å‹•ã«å¤±æ•—"
+    call :handle_error "oid4vc-verifier-frontend-honoƒfƒBƒŒƒNƒgƒŠ‚Ö‚ÌˆÚ“®‚É¸”s"
 )
 call npm install || (
-    call :handle_error "oid4vc-verifier-frontend-honoã®npm installã«å¤±æ•—"
+    call :handle_error "oid4vc-verifier-frontend-hono‚Ìnpm install‚É¸”s"
 )
 call npm link oid4vc-core oid4vc-prex mdoc-cbor-ts || (
-    call :handle_error "ä¾å­˜ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒªãƒ³ã‚¯ã«å¤±æ•—"
+    call :handle_error "ˆË‘¶ƒ‚ƒWƒ…[ƒ‹‚ÌƒŠƒ“ƒN‚É¸”s"
 )
 
-echo Verifier Frontendã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ãŒå®Œäº†ã—ã¾ã—ãŸã€‚
+echo Verifier Frontend‚ÌƒZƒbƒgƒAƒbƒv‚ªŠ®—¹‚µ‚Ü‚µ‚½B
 
-:: æ­£å¸¸çµ‚äº†æ™‚ã®ã‚¯ãƒªãƒ¼ãƒ³ã‚¢ãƒƒãƒ—
+:: ³íI—¹‚ÌƒNƒŠ[ƒ“ƒAƒbƒv
 call :cleanup
 exit /b 0 
