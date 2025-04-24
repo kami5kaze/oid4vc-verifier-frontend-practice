@@ -8,7 +8,8 @@ echo 続行するにはEnterキーを押してください。
 pause > nul
 
 :: 各モジュールのディレクトリを設定
-set "BUILD_DIR=build"
+set "CURRENT_DIR=%CD%"
+set "BUILD_DIR=%CURRENT_DIR%\build"
 set "CORE_DIR=%BUILD_DIR%\oid4vc-core"
 set "PREX_DIR=%BUILD_DIR%\oid4vc-prex"
 set "CBOR_DIR=%BUILD_DIR%\mdoc-cbor-ts"
