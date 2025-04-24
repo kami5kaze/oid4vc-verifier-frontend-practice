@@ -28,7 +28,7 @@ echo "続行するにはEnterキーを押してください。"
 read -p ""
 
 # 各モジュールのディレクトリを設定
-BUILD_DIR=build
+BUILD_DIR=$(pwd)/build
 CORE_DIR=$BUILD_DIR/oid4vc-core
 PREX_DIR=$BUILD_DIR/oid4vc-prex
 CBOR_DIR=$BUILD_DIR/mdoc-cbor-ts
