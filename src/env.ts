@@ -10,7 +10,7 @@ export interface Bindings {
   PRESENTATION_ID_KV: KVNamespace;
   BACKEND: Service;
   [key: string]: unknown;
-  DEPLOY_ENV: string;
+  DEPLOY_ENV: 'cloudflare' | 'lambda' | 'local';
 }
 
 export interface Env {

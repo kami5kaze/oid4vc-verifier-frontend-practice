@@ -18,7 +18,7 @@ import { URLBuilder } from '../utils/URLBuilder';
 export const createGetWalletResponseServiceInvoker = (
   baseUrl: string,
   apiPath: string,
-  deployEnv: string,
+  deployEnv: 'cloudflare' | 'lambda' | 'local',
   loadPresentationId: LoadPresentationId,
   endpoint: Service
 ): GetWalletResponse => {
@@ -38,7 +38,6 @@ export const createGetWalletResponseServiceInvoker = (
       .build();
 
     const response = await Fetcher.get(
-      apiPath,
       endpoint,
       url,
       GetWalletResponseResultSchema,

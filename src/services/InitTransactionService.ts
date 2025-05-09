@@ -20,7 +20,7 @@ import { URLBuilder } from '../utils/URLBuilder';
 export const createInitTransactionServiceInvoker = (
   baseUrl: string,
   apiPath: string,
-  deployEnv: string,
+  deployEnv: 'cloudflare' | 'lambda' | 'local',
   storePresentationId: StorePresentationId,
   endpoint: Service
 ): InitTransaction => {
@@ -31,7 +31,6 @@ export const createInitTransactionServiceInvoker = (
     const sessionId = uuidv4();
     const response = InitTransactionResponse.fromJSON(
       await Fetcher.post(
-        apiPath,
         endpoint,
         url,
         JSON.stringify(request),
