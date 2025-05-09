@@ -20,7 +20,7 @@ cleanup() {
 set -e
 trap 'handle_error "$BASH_COMMAND"' ERR
 # スクリプト終了時に cleanup を実行
-trap cleanup EXIT
+# trap cleanup EXIT
 
 echo "Verifier Frontendのデプロイを開始します。"
 echo "Cloudflareにログインしていない場合、処理の途中でログインを求められます。"
