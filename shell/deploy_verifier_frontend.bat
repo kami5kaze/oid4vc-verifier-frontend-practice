@@ -62,9 +62,7 @@ echo oid4vc-coreをビルドしています...
 cd "%CORE_DIR%" || (
     call :handle_error "oid4vc-coreディレクトリへの移動に失敗"
 )
-call npm install || (
-    call :handle_error "oid4vc-coreのnpm installに失敗"
-)
+call npm install
 call npm run build || (
     call :handle_error "oid4vc-coreのビルドに失敗"
 )
@@ -76,9 +74,7 @@ echo oid4vc-prexをビルドしています...
 cd "%PREX_DIR%" || (
     call :handle_error "oid4vc-prexディレクトリへの移動に失敗"
 )
-call npm install || (
-    call :handle_error "oid4vc-prexのnpm installに失敗"
-)
+call npm install
 call npm link oid4vc-core || (
     call :handle_error "oid4vc-coreのリンクに失敗"
 )
@@ -93,9 +89,7 @@ echo mdoc-cbor-tsをビルドしています...
 cd "%CBOR_DIR%" || (
     call :handle_error "mdoc-cbor-tsディレクトリへの移動に失敗"
 )
-call npm install || (
-    call :handle_error "mdoc-cbor-tsのnpm installに失敗"
-)
+call npm install
 call npm link oid4vc-core oid4vc-prex || (
     call :handle_error "依存モジュールのリンクに失敗"
 )
@@ -110,9 +104,7 @@ echo oid4vc-verifier-frontend-honoをビルドしています...
 cd .. || (
     call :handle_error "oid4vc-verifier-frontend-honoディレクトリへの移動に失敗"
 )
-call npm install || (
-    call :handle_error "oid4vc-verifier-frontend-honoのnpm installに失敗"
-)
+call npm install
 call npm link oid4vc-core oid4vc-prex mdoc-cbor-ts || (
     call :handle_error "依存モジュールのリンクに失敗"
 )
@@ -128,6 +120,7 @@ call npm run deploy || (
 
 echo Verifier Frontendのデプロイが完了しました。
 
-:: 正常終了時のクリーンアップ
-call :cleanup
+echo 終了するにはEnterキーを押してください。
+pause > nul
+
 exit /b 0 
