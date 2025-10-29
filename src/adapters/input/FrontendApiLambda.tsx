@@ -11,10 +11,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { presentationDefinition } from '../../data';
 import { Bindings } from '../../env';
 import { InitTransactionRequest } from '../../ports/input';
+import { getDevicesData } from '../../switchbot/switchbot_api';
 import { QueryBuilder } from '../../utils/QueryBuilder';
 import { URLBuilder } from '../../utils/URLBuilder';
 import { getLambdaDI } from './getLambdaDI';
 import { ErrorPage, Home, Init, Result, Template } from './views';
+import { Device, Switchbot } from './views/swtichbot';
 
 interface LambdaEnv {
   Bindings: Bindings & {
@@ -30,17 +32,20 @@ export class FrontendApiLambda {
   #home: string;
   #init: string;
   #result: string;
+  #switchbot: string;
 
   /**
    * Constructor of the class
    * @param {string} homePath - The home path
    * @param {string} initPath - The init path
    * @param {string} resultPath - The result path
+   * @param {string} switchbotPath - The switchbot path
    */
-  constructor(homePath: string, initPath: string, resultPath: string) {
+  constructor(homePath: string, initPath: string, resultPath: string , switchbotPath: string) {
     this.#home = homePath;
     this.#init = initPath;
     this.#result = resultPath;
+    this.#switchbot = switchbotPath;
   }
 
   /**
@@ -55,6 +60,7 @@ export class FrontendApiLambda {
       .get(this.#home, this.homeHandler())
       .get(this.#init, this.initHandler())
       .get(this.#result, this.resultHandler())
+      .get(this.#switchbot, this.switchbotHandler())
       .get('*', this.notFoundHandler());
     return app;
   }
@@ -173,6 +179,43 @@ export class FrontendApiLambda {
           <Result
             data={data}
             vpToken={response.vpToken}
+            homePath={this.#home}
+          />
+        );
+      } catch (error) {
+        return this.handleError(c, (error as Error).message);
+      }
+    };
+  }
+
+  //result後にswitchbotのwebにアクセスするためのhandlerを追加
+    /**
+     * Handler for switchbot path
+     * @returns {Handler<Env>} The handler
+     */
+  switchbotHandler(): Handler<LambdaEnv> {
+    return async (c) => {
+      try {
+        const { config } = getLambdaDI(c);
+        const sessionId = getCookie(c, 'sessionId');
+        if (!sessionId) {
+          throw new HTTPException(400, {
+            message: 'session expired, please try again',
+          });
+        }
+        const ua = new UAParser(c.req.raw.headers.get('user-agent') || '');
+        const device = ua.getDevice().type;
+        const data = await getDevicesData(config);
+        const devicesList: Device[] = data.body.deviceList;
+        const smartLocks = devicesList.filter(device => device.deviceType.toLowerCase() === "smart lock");
+        if (device === 'mobile') {
+          return c.render(
+            <Switchbot devices={smartLocks} homePath={this.#home} />
+          );
+        }
+        return c.render(
+          <Switchbot
+            devices={smartLocks}
             homePath={this.#home}
           />
         );

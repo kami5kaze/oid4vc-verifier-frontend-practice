@@ -8,7 +8,8 @@ const configuration = new HonoConfiguration();
 const api = new FrontendApiLambda(
   configuration.homePath,
   configuration.initPath,
-  configuration.resultPath
+  configuration.resultPath,
+  configuration.switchbotPath
 );
 
 const app = new Hono()

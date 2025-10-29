@@ -33,7 +33,7 @@ export const Result: FC<ResultProps> = ({ data, vpToken, homePath }) => {
           </div>
         </details>
         <a href={homePath} className="text-blue-500 hover:underline">
-          Go back to Home
+          Select Door
         </a>
       </>
     </Card>
