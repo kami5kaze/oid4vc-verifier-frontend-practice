@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach } from 'vitest';
 import { Context } from 'hono';
+import { beforeEach, describe, expect, it } from 'vitest';
+import { Env } from '../env';
 import { HonoConfiguration } from './HonoConfiguration';
-import { Bindings, Env } from '../env';
 
 describe('HonoConfiguration', () => {
     process.env = {
@@ -11,6 +11,7 @@ describe('HonoConfiguration', () => {
         WALLET_RESPONSE_PATH: '/wallet-response',
         WALLET_URL: 'https://wallet.example.com',
         PUBLIC_URL_VERIFIER_FRONTEND: 'https://public.example.com',
+        SWITCHBOT_URL: 'https://switchbot.example.com',
     }
 
     let ctx: Context<Env>;
@@ -43,6 +44,10 @@ describe('HonoConfiguration', () => {
 
     it('should return the correct walletUrl', () => {
         expect(config.walletUrl).toBe('https://wallet.example.com');
+    });
+
+    it('should return the correct switchbotUrl', () => {
+        expect(config.switchbotUrl).toBe('https://switchbot.example.com');
     });
 
     it('should return the correct publicUrl', () => {

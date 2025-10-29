@@ -6,7 +6,9 @@ const configuration = new HonoConfiguration();
 const api = new FrontendApi(
   configuration.homePath,
   configuration.initPath,
-  configuration.resultPath
+  configuration.resultPath,
+  configuration.switchbotPath,
+  configuration.controllerPath
 );
 
 const app = new Hono()

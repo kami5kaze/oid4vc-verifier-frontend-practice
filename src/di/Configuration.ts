@@ -31,9 +31,33 @@ export interface Configuration {
    */
   get resultPath(): string;
   /**
+   * The switchbot path of frontend
+   */
+  get switchbotPath(): string;
+  /**
+   * The switchbot controller path 
+   */
+  get controllerPath(): string;
+  /**
    * The wallet deep link
    */
   get walletUrl(): string;
+  /**
+   * The switchbot api url
+   */
+  get switchbotapiUrl(): string;
+  
+  get switchbotapiToken(): string;
+
+  get switchbotapiSecret(): string;
+
+  get hmacKey(): string;
+
+  get algorithm1(): string;
+
+  get algorithm2(): string;
+
+  get algorithm3(): string;
 
   get deployEnv(): string;
 }

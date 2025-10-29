@@ -11,6 +11,13 @@ export interface Bindings {
   BACKEND: Service;
   [key: string]: unknown;
   DEPLOY_ENV: 'cloudflare' | 'lambda' | 'local';
+  SWITCHBOT_API_URL: string;
+  SWITCHBOT_API_TOKEN: string; 
+  SWITCHBOT_API_SECRET: string;
+  HMAC_KEY: string;
+  ALGORITHM1: string;
+  ALGORITHM2: string;
+  ALGORITHM3: string;
 }
 
 export interface Env {

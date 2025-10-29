@@ -11,6 +11,13 @@ export abstract class AbstractConfiguration implements Configuration {
   abstract get publicUrl(): string;
   abstract get walletUrl(): string;
   abstract get deployEnv(): string;
+  abstract get switchbotapiUrl(): string;
+  abstract get switchbotapiToken(): string;
+  abstract get switchbotapiSecret(): string;
+  abstract get hmacKey(): string;
+  abstract get algorithm1(): string;
+  abstract get algorithm2(): string;
+  abstract get algorithm3(): string;  
 
   get homePath(): string {
     return '/home';
@@ -20,5 +27,13 @@ export abstract class AbstractConfiguration implements Configuration {
   }
   get resultPath(): string {
     return '/result';
+  }
+
+  get switchbotPath(): string {
+    return '/switchbot';
+  }
+
+  get controllerPath(): string {
+    return '/control';
   }
 }

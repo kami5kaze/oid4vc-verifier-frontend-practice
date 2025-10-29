@@ -1,7 +1,7 @@
 import { Context } from 'hono';
-import { AbstractConfiguration } from './AbstractConfiguration';
 import { env } from 'hono/adapter';
 import { Bindings, Env } from '../env';
+import { AbstractConfiguration } from './AbstractConfiguration';
 
 /**
  * Configuration class from Hono that implements the Configuration interface
@@ -52,6 +52,63 @@ export class HonoConfiguration extends AbstractConfiguration {
       ''
     );
   }
+
+  get switchbotapiUrl(): string {
+    return (
+      this.#env?.SWITCHBOT_API_URL ??
+      process.env.SWITCHBOT_API_URL ??
+      ''
+    );
+  }
+
+  get switchbotapiToken(): string {
+    return (
+      this.#env?.SWITCHBOT_API_TOKEN ??
+      process.env.SWITCHBOT_API_TOKEN ??
+      ''
+    );
+  }
+
+  get switchbotapiSecret(): string {
+    return (
+      this.#env?.SWITCHBOT_API_SECRET ??
+      process.env.SWITCHBOT_API_SECRET ??
+      ''
+    );
+  }
+
+  get hmacKey(): string { 
+    return (
+      this.#env?.HMAC_KEY ??
+      process.env.HMAC_KEY ??
+      ''
+    );
+  }
+
+  get algorithm1(): string {
+    return (
+      this.#env?.ALGORITHM1 ??
+      process.env.ALGORITHM1 ??
+      ''
+    );
+  }
+
+  get algorithm2(): string {
+    return (
+      this.#env?.ALGORITHM2 ??
+      process.env.ALGORITHM2 ??
+      ''
+    );
+  }
+
+  get algorithm3(): string {
+    return (
+      this.#env?.ALGORITHM3 ??
+      process.env.ALGORITHM3 ??
+      ''
+    );
+  }
+
 
   get deployEnv(): string {
     return this.#env?.DEPLOY_ENV ?? process.env.DEPLOY_ENV ?? '';
